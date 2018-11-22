@@ -3,7 +3,6 @@ int min(int a, int b)
 {
     return a < b ? a : b;
 }
-
 int DetectLane::slideThickness = 10;
 int DetectLane::BIRDVIEW_WIDTH = 240;
 int DetectLane::BIRDVIEW_HEIGHT = 320;
