@@ -15,8 +15,8 @@ VideoCapture capture("video.avi");
 DetectLane *detect;
 CarControl *car;
 int skipFrame = 1;
-int cnt =0;
-int flag = 0;
+int cnt =0,veloc;
+int flag = 0,curve=0;
 
 void sign_callback(const std_msgs::Float32::ConstPtr& msg) {
     if(msg->data == 1)
@@ -44,16 +44,37 @@ void imageCallback(const sensor_msgs::ImageConstPtr& msg)
         cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
         cv::imshow("View", cv_ptr->image);
         detect->update(cv_ptr->image);
-        if(cnt >0)
+        if(cnt >130)
         {
             --cnt;
-            car->driverCar(detect->getLeftLane(), detect->getRightLane(), 20, flag);
+            veloc = 20;
+            car->driverCar(detect->getLeftLane(), detect->getRightLane(), veloc, flag);
+            ROS_INFO("cnt %d",cnt);
+        }
+        else if(cnt > 90)
+        {
+            --cnt;
+            veloc = 30;
+            car->driverCar(detect->getLeftLane(), detect->getRightLane(), veloc, flag);
+            ROS_INFO("cnt %d",cnt);
+        }
+        else if(cnt > 10)
+        {
+            --cnt;
+            veloc = 40;
+            car->driverCar(detect->getLeftLane(), detect->getRightLane(), veloc, flag);
             ROS_INFO("cnt %d",cnt);
         }
         else
         {
             cnt = 0;
-            car->driverCar(detect->getLeftLane(), detect->getRightLane(), 40, 2);
+            curve =0;
+            flag =2;
+            veloc = 60;
+            if (DetectLane::variance>6){
+                cnt = 130;
+            }
+            car->driverCar(detect->getLeftLane(), detect->getRightLane(), veloc, flag);
         }
     }
     catch (cv_bridge::Exception& e)

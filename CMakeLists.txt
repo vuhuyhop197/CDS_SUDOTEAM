@@ -39,7 +39,7 @@ link_directories(
 	darknet_wrapper/darknet
   )
 add_executable(
-  lane_detect src/main.cpp
+  lane_detect src/darknet.cpp
   # my_control_car src/my_control_car.cpp
 	darknet_wrapper/darknet_wrapper/wrapper_cpp.cpp
   darknet_wrapper/darknet_wrapper/wrapper_cpp.h

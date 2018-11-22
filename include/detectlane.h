@@ -32,27 +32,26 @@ public:
     static int VERTICAL;
     static int HORIZONTAL;
 
-    static Point null;
-    // static Point mass_road_static;
-    static Point center_modified;
+    static Point null; // 
+    static double variance;
+    static int LEFT_LANE;
+    static int RIGHT_LANE;
 
 private:
-    Mat preProcess(const Mat &src);
+    Mat preProcess( const Mat &src, Point& mass_road );
 
-    Mat morphological(const Mat &imgHSV);
-    Mat birdViewTranform(const Mat &source);
-    void fillLane(Mat &src);
+    Mat birdViewTranform( const Mat &source, Point& mass_road );
+    void fillLane( Mat &src );
     Mat sobelfilter( const Mat& img_gray);
+    Point MassOfRoad(const Mat &src_RGB);
+    
+    void detectLeftRight( const vector<vector<Point> > &points, Point& mass_road );
+    vector<Mat> splitLayer( const Mat &src, int dir = VERTICAL );
+    vector<vector<Point> > centerRoadSide( const vector<Mat> &src, int dir = VERTICAL );
+    int recognize_left_right( vector<Point>& lanex, Point& mass_road ); 
+
     bool point_in_rect( Rect rect_win, Point p);
-    bool recognize_left_right( vector<Point>& lanex , Point& mass_road);
-
-    vector<Mat> splitLayer(const Mat &src, int dir = VERTICAL);
-    vector<vector<Point> > centerRoadSide(const vector<Mat> &src, int dir = VERTICAL);
-    void detectLeftRight(const vector<vector<Point> > &points);
-    Mat laneInShadow(const Mat &src);
-    Point2f MassOfRoad(const Mat &src_RGB);
-    Point2f birdViewTranform_Center_Point(const Mat &src, Point2f center);
-
+    Point detectMassRoad( vector<vector<Point>>& contours );
 
     int minThreshold[3] = {0, 0, 180};
     int maxThreshold[3] = {179, 30, 255};

@@ -70,7 +70,7 @@ void CarControl::driverCar(const vector<Point> &left, const vector<Point> &right
         {
             i--;
             /************************************************************/
-            error = 0;
+            // error = 0;
             /**************************************************************/
             if (i < 0) return;
         }
