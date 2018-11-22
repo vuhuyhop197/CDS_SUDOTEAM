@@ -33,9 +33,6 @@ public:
     static int HORIZONTAL;
 
     static Point null; // 
-    static double variance;
-    static int LEFT_LANE;
-    static int RIGHT_LANE;
 
 private:
     Mat preProcess( const Mat &src, Point& mass_road );
@@ -43,15 +40,16 @@ private:
     Mat birdViewTranform( const Mat &source, Point& mass_road );
     void fillLane( Mat &src );
     Mat sobelfilter( const Mat& img_gray);
-    Point MassOfRoad(const Mat &src_RGB);
+    Mat MassOfRoad(const Mat &src_RGB,  Point &mass_road);
     
     void detectLeftRight( const vector<vector<Point> > &points, Point& mass_road );
     vector<Mat> splitLayer( const Mat &src, int dir = VERTICAL );
     vector<vector<Point> > centerRoadSide( const vector<Mat> &src, int dir = VERTICAL );
-    int recognize_left_right( vector<Point>& lanex, Point& mass_road ); 
+    bool recognize_left_right( vector<Point>& lanex , Point& mass_road ); 
 
     bool point_in_rect( Rect rect_win, Point p);
     Point detectMassRoad( vector<vector<Point>>& contours );
+    void drawShapes( Mat& image, const vector<Point> & Shapes);
 
     int minThreshold[3] = {0, 0, 180};
     int maxThreshold[3] = {179, 30, 255};
